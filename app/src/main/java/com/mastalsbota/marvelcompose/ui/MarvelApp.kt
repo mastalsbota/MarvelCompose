@@ -13,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mastalsbota.marvelcompose.ui.navigation.AppBottomNavigation
 import com.mastalsbota.marvelcompose.ui.navigation.Navigation
 import com.mastalsbota.marvelcompose.ui.navigation.navigatePoppingUpToStartDestination
 import com.mastalsbota.marvelcompose.ui.theme.MarvelComposeTheme
 
+@ExperimentalPagerApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
 @ExperimentalMaterialApi

@@ -9,9 +9,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import coil.annotation.ExperimentalCoilApi
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mastalsbota.marvelcompose.ui.screens.CharacterDetailScreen
 import com.mastalsbota.marvelcompose.ui.screens.CharactersScreen
 import com.mastalsbota.marvelcompose.ui.screens.ComicDetailScreen
@@ -19,6 +19,7 @@ import com.mastalsbota.marvelcompose.ui.screens.ComicsScreen
 import com.mastalsbota.marvelcompose.ui.screens.EventDetailScreen
 import com.mastalsbota.marvelcompose.ui.screens.EventsScreen
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
@@ -63,6 +64,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
     }
 }
 
+@ExperimentalPagerApi
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
 @ExperimentalFoundationApi
