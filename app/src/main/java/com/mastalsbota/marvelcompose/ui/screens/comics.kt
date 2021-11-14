@@ -1,10 +1,11 @@
 package com.mastalsbota.marvelcompose.ui.screens
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
 import androidx.compose.material.TabRowDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,11 +16,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
+import com.mastalsbota.marvelcompose.R
 import com.mastalsbota.marvelcompose.data.entities.Comic
 import com.mastalsbota.marvelcompose.data.repositories.ComicsRepository
 import com.mastalsbota.marvelcompose.ui.screens.common.MarvelItemDetailScreen
@@ -36,27 +41,11 @@ fun ComicsScreen(onClick: (Comic) -> Unit) {
         comicsState = ComicsRepository.get()
     }
 
-    val formats = Comic.Format.values().take(3)
+    val formats = Comic.Format.values().toList()
     val pagerState = rememberPagerState()
-    val scope = rememberCoroutineScope()
 
     Column {
-        TabRow(
-            selectedTabIndex = pagerState.currentPage,
-            indicator = {tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
-                )
-            }
-        ) {
-            formats.forEach {
-                Tab(
-                    selected = it.ordinal == pagerState.currentPage,
-                    onClick = { scope.launch{ pagerState.animateScrollToPage((it.ordinal)) } },
-                    text = { Text(text = it.name) }
-                )
-            }
-        }
+        ComicsFormatsTabRow(pagerState, formats)
         HorizontalPager(count = formats.size, state = pagerState) {
             MarvelItemsList(
                 items = comicsState,
@@ -64,6 +53,45 @@ fun ComicsScreen(onClick: (Comic) -> Unit) {
             )
         }
     }
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun ComicsFormatsTabRow(
+    pagerState: PagerState,
+    formats: List<Comic.Format>
+) {
+    val scope = rememberCoroutineScope()
+
+    ScrollableTabRow(
+        selectedTabIndex = pagerState.currentPage,
+        edgePadding = 0.dp,
+        indicator = { tabPositions ->
+            TabRowDefaults.Indicator(
+                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+            )
+        }
+    ) {
+        formats.forEach {
+            Tab(
+                selected = it.ordinal == pagerState.currentPage,
+                onClick = { scope.launch { pagerState.animateScrollToPage((it.ordinal)) } },
+                text = { Text(text = stringResource(it.toStringRes()).uppercase()) }
+            )
+        }
+    }
+}
+
+@StringRes
+private fun Comic.Format.toStringRes(): Int = when (this) {
+    Comic.Format.COMIC -> R.string.comic
+    Comic.Format.MAGAZINE -> R.string.magazine
+    Comic.Format.TRADE_PAPERBACK -> R.string.trade_paperback
+    Comic.Format.HARDCOVER -> R.string.hardcover
+    Comic.Format.DIGEST -> R.string.digest
+    Comic.Format.GRAPHIC_NOVEL -> R.string.graphic_novel
+    Comic.Format.DIGITAL_COMIC -> R.string.digital_comic
+    Comic.Format.INFINITE_COMIC -> R.string.infinite_comic
 }
 
 @ExperimentalCoilApi
