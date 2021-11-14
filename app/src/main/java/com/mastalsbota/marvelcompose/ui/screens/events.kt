@@ -18,7 +18,7 @@ import com.mastalsbota.marvelcompose.ui.screens.common.MarvelItemsListScreen
 @ExperimentalFoundationApi
 @Composable
 fun EventsScreen(onClick: (Event) -> Unit) {
-    var eventsState by remember { mutableStateOf(emptyList<Event>()) }
+    var eventsState by remember() { mutableStateOf(emptyList<Event>()) }
     LaunchedEffect(Unit) {
         eventsState = EventsRepository.get()
     }
@@ -31,12 +31,12 @@ fun EventsScreen(onClick: (Event) -> Unit) {
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun EventDetailScreen(eventId: Int) {
+fun EventDetailScreen(eventId: Int, onUpClick: () -> Unit) {
     var eventState by remember { mutableStateOf<Event?>(null) }
     LaunchedEffect(Unit) {
         eventState = EventsRepository.find(eventId)
     }
     eventState?.let {
-        MarvelItemDetailScreen(it)
+        MarvelItemDetailScreen(it, onUpClick)
     }
 }

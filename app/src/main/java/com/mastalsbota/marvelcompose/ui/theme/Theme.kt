@@ -1,4 +1,4 @@
-package com.antonioleiva.marvelcompose.ui.theme
+package com.mastalsbota.marvelcompose.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

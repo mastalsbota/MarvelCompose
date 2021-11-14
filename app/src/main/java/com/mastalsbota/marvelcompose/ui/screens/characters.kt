@@ -31,12 +31,12 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun CharacterDetailScreen(characterId: Int) {
+fun CharacterDetailScreen(characterId: Int, onUpClick: () -> Unit) {
     var characterState by remember { mutableStateOf<Character?>(null) }
     LaunchedEffect(Unit) {
         characterState = CharactersRepository.find(characterId)
     }
     characterState?.let {
-        MarvelItemDetailScreen(it)
+        MarvelItemDetailScreen(it, onUpClick)
     }
 }

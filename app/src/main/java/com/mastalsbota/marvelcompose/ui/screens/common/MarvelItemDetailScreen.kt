@@ -41,9 +41,13 @@ import com.mastalsbota.marvelcompose.data.entities.ReferenceList
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun MarvelItemDetailScreen(marvelItem: MarvelItem) {
+fun MarvelItemDetailScreen(
+    marvelItem: MarvelItem,
+    onUpClick: () -> Unit
+) {
     MarvelItemDetailScaffold(
-        marvelItem = marvelItem
+        marvelItem = marvelItem,
+        onUpClick = onUpClick
     ) { padding ->
         LazyColumn(
             modifier = Modifier

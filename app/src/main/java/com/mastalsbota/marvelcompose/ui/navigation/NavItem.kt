@@ -5,7 +5,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -14,9 +13,8 @@ import com.mastalsbota.marvelcompose.R
 enum class NavItem(
     val navCommand: NavCommand,
     val icon: ImageVector,
-    @StringRes val title: Int
+    @StringRes val title: Int,
 ) {
-    HOME(NavCommand.ContentType(Feature.CHARACTERS), Icons.Default.Home, R.string.home),
     CHARACTERS(NavCommand.ContentType(Feature.CHARACTERS), Icons.Default.Face, R.string.characters),
     COMICS(NavCommand.ContentType(Feature.COMICS), Icons.Default.Book, R.string.comics),
     EVENTS(NavCommand.ContentType(Feature.EVENTS), Icons.Default.Event, R.string.events)

@@ -1,4 +1,4 @@
-package com.antonioleiva.marvelcompose.ui.navigation
+package com.mastalsbota.marvelcompose.ui.navigation
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton

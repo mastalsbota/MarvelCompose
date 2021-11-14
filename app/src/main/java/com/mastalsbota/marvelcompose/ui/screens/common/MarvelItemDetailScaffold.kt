@@ -10,6 +10,8 @@ import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Menu
@@ -20,16 +22,26 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ShareCompat
 import com.mastalsbota.marvelcompose.data.entities.MarvelItem
 import com.mastalsbota.marvelcompose.data.entities.Url
+import com.mastalsbota.marvelcompose.ui.navigation.ArrowBackIcon
 
 @ExperimentalMaterialApi
 @Composable
 fun MarvelItemDetailScaffold(
     marvelItem: MarvelItem,
+    onUpClick: () -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     val context = LocalContext.current
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(marvelItem.title) },
+                navigationIcon = { ArrowBackIcon(onUpClick) },
+                actions = { AppBarOverflowMenu(marvelItem.urls) }
+
+            )
+        },
         floatingActionButton = {
             if (marvelItem.urls.isNotEmpty()) {
                 FloatingActionButton(
