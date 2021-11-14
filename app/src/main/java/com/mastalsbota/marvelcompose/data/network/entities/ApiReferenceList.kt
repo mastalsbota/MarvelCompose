@@ -1,8 +1,8 @@
 package com.mastalsbota.marvelcompose.data.network.entities
 
-data class ApiSeriesList(
+data class ApiReferenceList(
     val available: Int,
     val collectionURI: String,
-    val items: List<ApiSeries>,
+    val items: List<ApiReference>?,
     val returned: Int
 )

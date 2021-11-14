@@ -1,13 +1,14 @@
 package com.mastalsbota.marvelcompose.data.network
 
 import com.mastalsbota.marvelcompose.BuildConfig
-import java.util.Date
+import java.util.*
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 const val API_ENDPOINT = "https://gateway.marvel.com/"
 
@@ -28,7 +29,9 @@ object ApiClient {
         .client(okHttpClient)
         .build()
 
-    val charactersService: CharactersService = restAdapter.create(CharactersService::class.java)
+    val charactersService: CharactersService = restAdapter.create()
+    val comicsService: ComicsService = restAdapter.create()
+    val eventsService: EventsService = restAdapter.create()
 }
 
 private class QueryInterceptor : Interceptor {

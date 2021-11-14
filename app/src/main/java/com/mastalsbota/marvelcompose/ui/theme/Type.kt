@@ -1,4 +1,4 @@
-package com.mastalsbota.marvelcompose.ui.theme
+package com.antonioleiva.marvelcompose.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
