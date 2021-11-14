@@ -57,8 +57,7 @@ private fun NavGraphBuilder.charactersNav(navController: NavController) {
         composable(NavCommand.ContentTypeDetail(Feature.CHARACTERS)) {
             val id = it.findArg<Int>(NavArg.ItemId)
             CharacterDetailScreen(
-                characterId = id,
-                onUpClick = { navController.popBackStack() }
+                characterId = id
             )
         }
     }
@@ -86,8 +85,7 @@ private fun NavGraphBuilder.comicsNav(navController: NavController) {
         composable(NavCommand.ContentTypeDetail(Feature.COMICS)) {
             val id = it.findArg<Int>(NavArg.ItemId)
             ComicDetailScreen(
-                comicId = id,
-                onUpClick = { navController.popBackStack() }
+                comicId = id
             )
         }
     }

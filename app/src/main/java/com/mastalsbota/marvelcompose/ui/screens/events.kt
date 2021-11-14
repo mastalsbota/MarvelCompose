@@ -37,6 +37,6 @@ fun EventDetailScreen(eventId: Int, onUpClick: () -> Unit) {
         eventState = EventsRepository.find(eventId)
     }
     eventState?.let {
-        MarvelItemDetailScreen(it, onUpClick)
+        MarvelItemDetailScreen(it)
     }
 }

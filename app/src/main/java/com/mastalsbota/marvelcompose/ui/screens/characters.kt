@@ -18,7 +18,7 @@ import com.mastalsbota.marvelcompose.ui.screens.common.MarvelItemsListScreen
 @ExperimentalFoundationApi
 @Composable
 fun CharactersScreen(onClick: (Character) -> Unit) {
-    var charactersState by remember() { mutableStateOf(emptyList<Character>()) }
+    var charactersState by remember { mutableStateOf(emptyList<Character>()) }
     LaunchedEffect(Unit) {
         charactersState = CharactersRepository.get()
     }
@@ -31,12 +31,12 @@ fun CharactersScreen(onClick: (Character) -> Unit) {
 @ExperimentalCoilApi
 @ExperimentalMaterialApi
 @Composable
-fun CharacterDetailScreen(characterId: Int, onUpClick: () -> Unit) {
+fun CharacterDetailScreen(characterId: Int) {
     var characterState by remember { mutableStateOf<Character?>(null) }
     LaunchedEffect(Unit) {
         characterState = CharactersRepository.find(characterId)
     }
     characterState?.let {
-        MarvelItemDetailScreen(it, onUpClick)
+        MarvelItemDetailScreen(it)
     }
 }
