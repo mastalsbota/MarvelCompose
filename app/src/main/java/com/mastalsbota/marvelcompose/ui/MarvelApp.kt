@@ -11,8 +11,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -21,11 +24,13 @@ import coil.annotation.ExperimentalCoilApi
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.mastalsbota.marvelcompose.R
 import com.mastalsbota.marvelcompose.ui.navigation.AppBottomNavigation
+import com.mastalsbota.marvelcompose.ui.navigation.DrawerContent
 import com.mastalsbota.marvelcompose.ui.navigation.NavItem
 import com.mastalsbota.marvelcompose.ui.navigation.Navigation
 import com.mastalsbota.marvelcompose.ui.navigation.navigatePoppingUpToStartDestination
 import com.mastalsbota.marvelcompose.ui.screens.common.AppBarIcon
 import com.mastalsbota.marvelcompose.ui.theme.MarvelComposeTheme
+import kotlinx.coroutines.launch
 
 @ExperimentalPagerApi
 @ExperimentalCoilApi
@@ -37,26 +42,40 @@ fun MarvelApp() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route ?: ""
     val showUpNavigation = currentRoute !in NavItem.values().map { it.navCommand.route }
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    val drawerOptions = listOf(NavItem.HOME, NavItem.SETTINGS)
+    val bottomNavOptions = listOf(NavItem.CHARACTERS, NavItem.COMICS, NavItem.EVENTS)
 
     MarvelScreen {
         Scaffold(
             topBar = {
                 TopAppBar(
                     title = { Text(stringResource(id = R.string.app_name)) },
-                    navigationIcon = if (showUpNavigation) {
-                        {
+                    navigationIcon = {
+                        if (showUpNavigation) {
                             AppBarIcon(
                                 imageVector = Icons.Default.ArrowBack,
                                 onClick = { navController.popBackStack() })
+                        } else {
+                            AppBarIcon(
+                                imageVector = Icons.Default.Menu,
+                                onClick = { scope.launch { scaffoldState.drawerState.open() } }
+                            )
                         }
-                    } else null
+                    }
                 )
             },
             bottomBar = {
-                AppBottomNavigation(currentRoute = currentRoute, onNavItemClick = {
+                AppBottomNavigation(
+                    bottomNavOptions = bottomNavOptions,
+                    currentRoute = currentRoute
+                ) {
                     navController.navigatePoppingUpToStartDestination(it.navCommand.route)
-                })
-            }
+                }
+            },
+            drawerContent = { DrawerContent(drawerOptions, {}) },
+            scaffoldState = scaffoldState
         ) { padding ->
             Box(modifier = Modifier.padding(padding)) {
                 Navigation(navController)
