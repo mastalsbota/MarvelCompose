@@ -47,6 +47,14 @@ fun MarvelApp() {
     val drawerOptions = listOf(NavItem.HOME, NavItem.SETTINGS)
     val bottomNavOptions = listOf(NavItem.CHARACTERS, NavItem.COMICS, NavItem.EVENTS)
 
+    val showBottomNavigation =
+        bottomNavOptions.any { currentRoute.contains(it.navCommand.feature.route) }
+    val drawerSelectedIndex = if (showBottomNavigation) {
+        drawerOptions.indexOf(NavItem.HOME)
+    } else {
+        drawerOptions.indexOfFirst { it.navCommand.route == currentRoute }
+    }
+
     MarvelScreen {
         Scaffold(
             topBar = {
@@ -67,14 +75,25 @@ fun MarvelApp() {
                 )
             },
             bottomBar = {
-                AppBottomNavigation(
-                    bottomNavOptions = bottomNavOptions,
-                    currentRoute = currentRoute
-                ) {
-                    navController.navigatePoppingUpToStartDestination(it.navCommand.route)
+                if (showBottomNavigation) {
+                    AppBottomNavigation(
+                        bottomNavOptions = bottomNavOptions,
+                        currentRoute = currentRoute
+                    ) {
+                        navController.navigatePoppingUpToStartDestination(it.navCommand.route)
+                    }
                 }
             },
-            drawerContent = { DrawerContent(drawerOptions, {}) },
+            drawerContent = {
+                DrawerContent(
+                    drawerOptions = drawerOptions,
+                    selectedIndex = drawerSelectedIndex,
+                    onOptionClick = { navItem ->
+                        scope.launch { scaffoldState.drawerState.close() }
+                        navController.navigate(navItem.navCommand.route)
+                    }
+                )
+            },
             scaffoldState = scaffoldState
         ) { padding ->
             Box(modifier = Modifier.padding(padding)) {
